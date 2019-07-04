@@ -71,7 +71,7 @@ abstract class SymbolRenderer extends BaseSymbolRenderer {
 /// An optional second point can describe an extended symbol.
 abstract class PointSymbolRenderer extends BaseSymbolRenderer {
   void paint(ChartCanvas canvas, Point<double> p1, double radius,
-      {Point<double> p2, Color fillColor, strokeColor});
+      {Point<double> p2, Color fillColor, strokeColor, strokeWidthPx});
 }
 
 /// Rounded rectangular symbol with corners having [radius].
