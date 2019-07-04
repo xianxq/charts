@@ -346,3 +346,23 @@ class RectangleRangeSymbolRenderer extends PointSymbolRenderer {
   @override
   int get hashCode => runtimeType.hashCode;
 }
+
+class OHLCSymbolRenderer extends PointSymbolRenderer {
+  RectangleRangeSymbolRenderer();
+
+  @override
+  void paint(ChartCanvas canvas, Point<double> p1, double radius,
+      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx}) {
+  }
+
+  @override
+  bool shouldRepaint(RectangleRangeSymbolRenderer oldRenderer) {
+    return this != oldRenderer;
+  }
+
+  @override
+  bool operator ==(Object other) => other is OHLCSymbolRenderer;
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
