@@ -55,7 +55,7 @@ class ComparisonPointsDecorator<D> extends PointRendererDecorator<D> {
     final strokeWidthPx = pointElement.strokeWidthPx;
     Point<double> p1 = points[0];
     Point<double> p2 = points[1];
-    if (symbolRenderer is OHLCSymbolRenderer) {
+    if (1) {
     	p1 = new Point<double>(pointElement.point.xLower, pointElement.point.yLower);
     	p2 = new Point<double>(pointElement.point.xUpper, pointElement.point.yUpper);
     }
