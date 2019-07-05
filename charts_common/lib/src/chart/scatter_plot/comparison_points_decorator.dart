@@ -53,15 +53,10 @@ class ComparisonPointsDecorator<D> extends PointRendererDecorator<D> {
 
     final color = pointElement.color.lighter;
     final strokeWidthPx = pointElement.strokeWidthPx;
-    Point<double> p1 = points[0];
-    Point<double> p2 = points[1];
-    if (1) {
-    	p1 = new Point<double>(pointElement.point.xLower, pointElement.point.yLower);
-    	p2 = new Point<double>(pointElement.point.xUpper, pointElement.point.yUpper);
-    }
+    final datum = pointElement.point.datum;
 
     symbolRenderer.paint(canvas, points[0], pointElement.boundsLineRadiusPx,
-        fillColor: color, strokeColor: color, p2: points[1], strokeWidthPx: strokeWidthPx);
+        fillColor: color, strokeColor: color, p2: points[1], strokeWidthPx: strokeWidthPx, datum: datum);
   }
 
   /// Computes end points for the [pointElement]'s lower and upper data bounds.

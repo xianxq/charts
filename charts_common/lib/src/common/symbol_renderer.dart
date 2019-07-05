@@ -71,7 +71,7 @@ abstract class SymbolRenderer extends BaseSymbolRenderer {
 /// An optional second point can describe an extended symbol.
 abstract class PointSymbolRenderer extends BaseSymbolRenderer {
   void paint(ChartCanvas canvas, Point<double> p1, double radius,
-      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx});
+      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx, Object datum});
 }
 
 /// Rounded rectangular symbol with corners having [radius].
@@ -279,7 +279,7 @@ class CylinderSymbolRenderer extends PointSymbolRenderer {
 
   @override
   void paint(ChartCanvas canvas, Point<double> p1, double radius,
-      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx}) {
+      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx, Object datum}) {
     if (p1 == null) {
       throw new ArgumentError('Invalid point p1 "${p1}"');
     }
@@ -316,7 +316,7 @@ class RectangleRangeSymbolRenderer extends PointSymbolRenderer {
 
   @override
   void paint(ChartCanvas canvas, Point<double> p1, double radius,
-      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx}) {
+      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx, Object datum}) {
     if (p1 == null) {
       throw new ArgumentError('Invalid point p1 "${p1}"');
     }
@@ -342,26 +342,6 @@ class RectangleRangeSymbolRenderer extends PointSymbolRenderer {
 
   @override
   bool operator ==(Object other) => other is RectangleRangeSymbolRenderer;
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-}
-
-class OHLCSymbolRenderer extends PointSymbolRenderer {
-  RectangleRangeSymbolRenderer();
-
-  @override
-  void paint(ChartCanvas canvas, Point<double> p1, double radius,
-      {Point<double> p2, Color fillColor, strokeColor, double strokeWidthPx}) {
-  }
-
-  @override
-  bool shouldRepaint(RectangleRangeSymbolRenderer oldRenderer) {
-    return this != oldRenderer;
-  }
-
-  @override
-  bool operator ==(Object other) => other is OHLCSymbolRenderer;
 
   @override
   int get hashCode => runtimeType.hashCode;
