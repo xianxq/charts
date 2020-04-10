@@ -31,6 +31,7 @@ class PerSeriesLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
   TextStyleSpec entryTextStyle;
   MeasureFormatter measureFormatter;
   MeasureFormatter secondaryMeasureFormatter;
+  bool showOverlaySeries = false; // Defaults to false.
 
   /// Option for showing measures when there is no selection.
   LegendDefaultMeasure legendDefaultMeasure;
@@ -38,8 +39,9 @@ class PerSeriesLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
   @override
   List<LegendEntry<D>> getLegendEntries(List<MutableSeries<D>> seriesList) {
     final legendEntries = seriesList
-        .map((series) => new LegendEntry<D>(series, series.displayName,
-            color: series.colorFn(0), textStyle: entryTextStyle))
+        .where((series) => showOverlaySeries || !series.overlaySeries)
+        .map((series) => LegendEntry<D>(series, series.displayName,
+            color: series.seriesColor, textStyle: entryTextStyle))
         .toList();
 
     // Update with measures only if showing measure on no selection.
@@ -72,7 +74,7 @@ class PerSeriesLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
     final seriesAndMeasure = <String, num>{};
 
     // Hash set of series ID's that use the secondary measure axis
-    final secondaryAxisSeriesIDs = new HashSet<String>();
+    final secondaryAxisSeriesIDs = HashSet<String>();
 
     for (SeriesDatum<D> selectedDatum in selectionModel.selectedDatum) {
       final series = selectedDatum.series;
@@ -121,7 +123,7 @@ class PerSeriesLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
     num getMeasureTotal(MutableSeries<D> series) {
       var measureTotal = 0.0;
       for (var i = 0; i < series.data.length; i++) {
-        measureTotal += series.measureFn(i);
+        measureTotal += series.measureFn(i) ?? 0.0;
       }
       return measureTotal;
     }
