@@ -29,6 +29,7 @@ class PerDatumLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
   TextStyleSpec entryTextStyle;
   MeasureFormatter measureFormatter;
   MeasureFormatter secondaryMeasureFormatter;
+  bool showOverlaySeries;
 
   /// Option for showing measures when there is no selection.
   LegendDefaultMeasure legendDefaultMeasure;
@@ -39,8 +40,7 @@ class PerDatumLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
 
     final series = seriesList[0];
     for (var i = 0; i < series.data.length; i++) {
-      legendEntries.add(new LegendEntry<D>(
-          series, series.domainFn(i).toString(),
+      legendEntries.add(LegendEntry<D>(series, series.domainFn(i).toString(),
           color: series.colorFn(i),
           datum: series.data[i],
           datumIndex: i,

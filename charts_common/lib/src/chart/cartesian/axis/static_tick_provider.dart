@@ -76,7 +76,7 @@ class StaticTickProvider<D> extends TickProvider<D> {
       // We still check if the spec is within the viewport because we do not
       // extend the axis for OrdinalScale.
       if (scale.compareDomainValueToViewport(spec.value) == 0) {
-        final tick = new Tick<D>(
+        final tick = Tick<D>(
             value: spec.value,
             textElement: graphicsFactory
                 .createTextElement(spec.label ?? formattedValues[i]),
@@ -85,7 +85,8 @@ class StaticTickProvider<D> extends TickProvider<D> {
           tick.textElement.textStyle = graphicsFactory.createTextPaint()
             ..fontFamily = spec.style.fontFamily
             ..fontSize = spec.style.fontSize
-            ..color = spec.style.color;
+            ..color = spec.style.color
+            ..lineHeight = spec.style.lineHeight;
         }
         ticks.add(tick);
       }

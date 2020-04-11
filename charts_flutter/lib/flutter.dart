@@ -118,6 +118,7 @@ export 'package:charts_common/common.dart'
         PointRenderer,
         PointRendererConfig,
         PointRendererDecorator,
+        PointRendererElement,
         PointSymbolRenderer,
         QuantumPalette,
         RangeAnnotationAxisType,
@@ -145,6 +146,9 @@ export 'package:charts_common/common.dart'
         StyleFactory,
         SymbolAnnotationRenderer,
         SymbolAnnotationRendererConfig,
+        TextDirection,
+        TextElement,
+        TextStyle,
         TextStyleSpec,
         TickFormatter,
         TickFormatterSpec,
@@ -169,6 +173,8 @@ export 'src/behaviors/chart_title/chart_title.dart' show ChartTitle;
 export 'src/behaviors/legend/datum_legend.dart' show DatumLegend;
 export 'src/behaviors/legend/legend_content_builder.dart'
     show LegendContentBuilder, TabularLegendContentBuilder;
+export 'src/behaviors/legend/legend_entry_layout.dart'
+    show LegendEntryLayout, SimpleLegendEntryLayout;
 export 'src/behaviors/legend/legend_layout.dart'
     show LegendLayout, TabularLegendLayout;
 export 'src/behaviors/legend/series_legend.dart' show SeriesLegend;

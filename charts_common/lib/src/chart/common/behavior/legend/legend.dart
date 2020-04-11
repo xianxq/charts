@@ -51,7 +51,7 @@ import 'legend_entry_generator.dart';
 /// Flutter, using widgets).
 abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
   final SelectionModelType selectionModelType;
-  final legendState = new LegendState<D>();
+  final legendState = LegendState<D>();
   final LegendEntryGenerator<D> legendEntryGenerator;
 
   String _title;
@@ -80,7 +80,7 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
   /// the legend entries.
   List<MutableSeries<D>> _postProcessSeriesList;
 
-  static final _decimalPattern = new NumberFormat.decimalPattern();
+  static final _decimalPattern = NumberFormat.decimalPattern();
 
   /// Default measure formatter for legends.
   @protected
@@ -89,7 +89,7 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
   }
 
   Legend({this.selectionModelType, this.legendEntryGenerator, entryTextStyle}) {
-    _lifecycleListener = new LifecycleListener(
+    _lifecycleListener = LifecycleListener(
         onPostprocess: _postProcess, onPreprocess: _preProcess, onData: onData);
     legendEntryGenerator.entryTextStyle = entryTextStyle;
   }
@@ -158,13 +158,25 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
     _legendTapHandling = legendTapHandling;
   }
 
+  /// Whether or not the legend show overlay series.
+  ///
+  /// By default this is false, the overlay series are not shown on the legend.
+  ///
+  /// if [showOverlaySeries] is set to null, it is changed to the default of
+  /// false.
+  bool get showOverlaySeries => legendEntryGenerator.showOverlaySeries;
+
+  set showOverlaySeries(bool showOverlaySeries) {
+    legendEntryGenerator.showOverlaySeries = showOverlaySeries ?? false;
+  }
+
   /// Resets any hidden series data when new data is drawn on the chart.
   @protected
   void onData(List<MutableSeries<D>> seriesList) {}
 
   /// Store off a copy of the series list for use when we render the legend.
   void _preProcess(List<MutableSeries<D>> seriesList) {
-    _currentSeriesList = new List.from(seriesList);
+    _currentSeriesList = List.from(seriesList);
     preProcessSeriesList(seriesList);
   }
 
@@ -196,7 +208,7 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
 
       legendState._selectionModel = selectionModel;
       _postProcessSeriesList = seriesList;
-      _updateLegendEntries();
+      _updateLegendEntries(seriesList: seriesList);
     }
   }
 
@@ -212,9 +224,9 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
 
   /// Internally update legend entries, before calling [updateLegend] that
   /// notifies the native platform.
-  void _updateLegendEntries() {
+  void _updateLegendEntries({List<MutableSeries<D>> seriesList}) {
     legendEntryGenerator.updateLegendEntries(legendState._legendEntries,
-        legendState._selectionModel, chart.currentSeriesList);
+        legendState._selectionModel, seriesList ?? chart.currentSeriesList);
 
     updateLegend();
   }
@@ -249,7 +261,9 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
   @override
   String get role => 'legend-${selectionModelType.toString()}';
 
-  bool get isRtl => _chart.context.isRtl;
+  bool get isRtl => _chart.context.chartContainerIsRtl;
+
+  bool get isAxisFlipped => _chart.context.isRtl;
 
   @override
   GraphicsFactory get graphicsFactory => _graphicsFactory;
@@ -261,7 +275,7 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
 
   @override
   LayoutViewConfig get layoutConfig {
-    return new LayoutViewConfig(
+    return LayoutViewConfig(
         position: _layoutPosition,
         positionOrder: LayoutViewPositionOrder.legend,
         paintOrder: LayoutViewPaintOrder.legend);
@@ -275,14 +289,13 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
         position = LayoutPosition.Bottom;
         break;
       case BehaviorPosition.end:
-        position = isRtl ? LayoutPosition.Left : LayoutPosition.Right;
+        position = isAxisFlipped ? LayoutPosition.Left : LayoutPosition.Right;
         break;
       case BehaviorPosition.inside:
         position = LayoutPosition.DrawArea;
         break;
       case BehaviorPosition.start:
-        position = isRtl ? LayoutPosition.Right : LayoutPosition.Left;
-        position = isRtl ? LayoutPosition.Right : LayoutPosition.Left;
+        position = isAxisFlipped ? LayoutPosition.Right : LayoutPosition.Left;
         break;
       case BehaviorPosition.top:
         position = LayoutPosition.Top;
@@ -296,7 +309,7 @@ abstract class Legend<D> implements ChartBehavior<D>, LayoutView {
   ViewMeasuredSizes measure(int maxWidth, int maxHeight) {
     // Native child classes should override this method to return real
     // measurements.
-    return new ViewMeasuredSizes(preferredWidth: 0, preferredHeight: 0);
+    return ViewMeasuredSizes(preferredWidth: 0, preferredHeight: 0);
   }
 
   @override
