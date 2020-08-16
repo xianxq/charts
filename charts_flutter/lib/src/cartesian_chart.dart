@@ -18,6 +18,7 @@ import 'package:meta/meta.dart' show immutable, protected;
 
 import 'package:charts_common/common.dart' as common
     show
+        Axis,
         AxisSpec,
         BaseChart,
         CartesianChart,
@@ -39,6 +40,7 @@ abstract class CartesianChart<D> extends BaseChart<D> {
   final common.AxisSpec secondaryMeasureAxis;
   final LinkedHashMap<String, common.NumericAxisSpec> disjointMeasureAxes;
   final bool flipVerticalAxis;
+  common.BaseChart _baseCartesianChart;
 
   CartesianChart(
     List<common.Series<dynamic, D>> seriesList, {
@@ -105,6 +107,8 @@ abstract class CartesianChart<D> extends BaseChart<D> {
       chart.disjointMeasureAxisSpecs = disjointMeasureAxes;
       chartState.markChartDirty();
     }
+
+    _baseCartesianChart = baseChart;
   }
 
   @protected
@@ -121,5 +125,11 @@ abstract class CartesianChart<D> extends BaseChart<D> {
     } else {
       return null;
     }
+  }
+
+  double getMeasureValueWithDomain(double domain, String axisId) {
+    common.CartesianChart chart = _baseCartesianChart;
+    common.Axis measureAxis = chart.getMeasureAxis(axisId: axisId);
+    return measureAxis.getDomain(domain);
   }
 }

@@ -340,8 +340,12 @@ class Slider<D> implements ChartBehavior<D> {
     }
 
     // Fire the event.
+    int top = _handleBounds.top.toInt();
+    int bottom = _handleBounds.bottom.toInt();
+    double middle = (top+bottom)/2;
+
     _sliderEventListener.onChange(
-        Point<int>(_domainCenterPoint.x, _domainCenterPoint.y),
+        Point<int>(_domainCenterPoint.x.toInt(), middle.toInt()),
         _domainValue,
         _roleId,
         dragState);

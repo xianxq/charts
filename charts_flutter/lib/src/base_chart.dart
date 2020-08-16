@@ -153,9 +153,9 @@ abstract class BaseChart<D> extends StatefulWidget {
       final addedBehavior = chartState.addedBehaviorWidgets[i];
       if (!behaviorList.remove(addedBehavior)) {
         final role = addedBehavior.role;
+        chart.removeBehavior(chartState.addedCommonBehaviorsByRole[role]);
         chartState.addedBehaviorWidgets.remove(addedBehavior);
         chartState.addedCommonBehaviorsByRole.remove(role);
-        chart.removeBehavior(chartState.addedCommonBehaviorsByRole[role]);
         chartState.markChartDirty();
       }
     }
