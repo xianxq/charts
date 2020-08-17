@@ -130,6 +130,27 @@ abstract class CartesianChart<D> extends BaseChart<D> {
   double getMeasureValueWithDomain(double domain, String axisId) {
     common.CartesianChart chart = _baseCartesianChart;
     common.Axis measureAxis = chart.getMeasureAxis(axisId: axisId);
-    return measureAxis.getDomain(domain);
+    double value = measureAxis.getDomain(domain).toDouble();
+    return value.toDouble();
+  }
+
+  String getMeasureStringWithValue(double value, String axisId) {
+    common.CartesianChart chart = _baseCartesianChart;
+    common.Axis measureAxis = chart.getMeasureAxis(axisId: axisId);
+    List<double> values = [];
+    values.add(value.toDouble());
+    Map<double, String> cache = new Map<double, String>();
+
+    List<String> strings = measureAxis.tickFormatter.format(values, cache);
+    return strings.first;
+  }
+
+  String getAxisStringWithDomain(DateTime domain) {
+    common.CartesianChart chart = _baseCartesianChart;
+    List<DateTime> values = [domain];
+    Map<DateTime, String> cache = new Map<DateTime, String>();
+    // stepSize给一个超大值，就会用默认的
+    List<String> strings = chart.domainAxis.tickFormatter.format(values, cache, stepSize: 10000000);
+    return strings.first;
   }
 }

@@ -385,7 +385,7 @@ class Slider<D> implements ChartBehavior<D> {
       var positionY = point.y;
       if (point.y == 0) {
         if (_handleBounds == null) {
-          positionY = viewBounds.bottom.toDouble();
+          positionY = viewBounds.top.toDouble() + viewBounds.height.toDouble()/2.0;
         } else {
           positionY = previousYPosition;
         }
