@@ -659,13 +659,32 @@ class _SliderLayoutView<D> extends LayoutView {
   void paint(ChartCanvas canvas, double animationPercent) {
     final sliderElement = _sliderHandle.getCurrentSlider(animationPercent);
 
-    canvas.drawLine(
+    final sliderWidth = sliderElement.buttonBounds.width;
+    final sliderHeight = sliderElement.buttonBounds.height;
+    final sliderCenterX = sliderElement.domainCenterPoint.x;
+    final sliderCenterY = sliderElement.buttonBounds.bottom - sliderHeight/2.0;
+    final padding = 0;
+
+    List<Point<num>> linePoints = [
+      Point<num>(sliderCenterX, _drawAreaBounds.top),
+      Point<num>(sliderCenterX, sliderCenterY - sliderHeight/2.0 - padding),
+      Point<num>(sliderCenterX, sliderCenterY + sliderHeight/2.0 + padding),
+      Point<num>(sliderCenterX, _drawAreaBounds.bottom),
+
+      Point<num>(_drawAreaBounds.left, sliderCenterY),
+      Point<num>(sliderCenterX - sliderWidth/2.0 - padding, sliderCenterY),
+      Point<num>(sliderCenterX + sliderWidth/2.0 + padding, sliderCenterY),
+      Point<num>(_drawAreaBounds.right, sliderCenterY),
+    ];
+    for (int index=0; index<linePoints.length; index+=2) {
+      canvas.drawLine(
         points: [
-          Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.top),
-          Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.bottom),
+          linePoints[index],
+          linePoints[index+1],
         ],
         stroke: sliderElement.stroke,
         strokeWidthPx: sliderElement.strokeWidthPx);
+    }
 
     _handleRenderer.paint(canvas, sliderElement.buttonBounds,
         fillColor: sliderElement.fill,
