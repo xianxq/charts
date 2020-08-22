@@ -170,7 +170,8 @@ class Slider<D> implements ChartBehavior<D> {
             onTap: _onSelect,
             onDragStart: _onSelect,
             onDragUpdate: _onSelect,
-            onDragEnd: _onDragEnd);
+            onDragEnd: _onDragEnd,
+            priority: GestureListener.GesturePriorityHigh);
         break;
       case SelectionTrigger.pressHold:
         _gestureListener = GestureListener(
@@ -178,7 +179,8 @@ class Slider<D> implements ChartBehavior<D> {
             onLongPress: _onSelect,
             onDragStart: _onSelect,
             onDragUpdate: _onSelect,
-            onDragEnd: _onDragEnd);
+            onDragEnd: _onDragEnd,
+            priority: GestureListener.GesturePriorityHigh);
         break;
       case SelectionTrigger.longPressHold:
         _gestureListener = GestureListener(
@@ -186,7 +188,8 @@ class Slider<D> implements ChartBehavior<D> {
             onLongPress: _onLongPressSelect,
             onDragStart: _onSelect,
             onDragUpdate: _onSelect,
-            onDragEnd: _onDragEnd);
+            onDragEnd: _onDragEnd,
+            priority: GestureListener.GesturePriorityHigh);
         break;
       default:
         throw ArgumentError('Slider does not support the event trigger '

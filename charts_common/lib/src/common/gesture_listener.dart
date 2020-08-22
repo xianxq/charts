@@ -22,6 +22,12 @@ import 'dart:math' show Point;
 /// Each gesture returns true if the event is consumed or false if it should
 /// continue to alert other listeners.
 class GestureListener {
+  static final int GesturePriorityVeryHigh = 100000;
+  static final int GesturePriorityHigh = 50000;
+  static final int GesturePriorityNormal = 20000;
+  static final int GesturePriorityLow = 10000;
+  static final int GesturePriorityVeryLow = 1000;
+
   static final GestureCancelCallback defaultTapCancel = () {};
   static final GestureSinglePointCallback defaultTapTest = (_) => false;
 
@@ -81,6 +87,7 @@ class GestureListener {
   final GestureDragStartCallback onDragStart;
   final GestureDragUpdateCallback onDragUpdate;
   final GestureDragEndCallback onDragEnd;
+  final int priority;
 
   GestureListener(
       {GestureSinglePointCallback onTapTest,
@@ -90,9 +97,11 @@ class GestureListener {
       this.onHover,
       this.onDragStart,
       this.onDragUpdate,
-      this.onDragEnd})
+      this.onDragEnd,
+      int priority})
       : this.onTapTest = onTapTest ?? defaultTapTest,
-        this.onTapCancel = onTapCancel ?? defaultTapCancel;
+        this.onTapCancel = onTapCancel ?? defaultTapCancel,
+        this.priority = priority ?? GesturePriorityNormal;
 }
 
 typedef GestureCancelCallback = void Function();
@@ -103,3 +112,5 @@ typedef GestureDragUpdateCallback = bool Function(
     Point<double> localPosition, double scale);
 typedef GestureDragEndCallback = bool Function(
     Point<double> localPosition, double scale, double pixelsPerSec);
+
+

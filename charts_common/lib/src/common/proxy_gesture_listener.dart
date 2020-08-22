@@ -24,6 +24,17 @@ class ProxyGestureListener {
 
   void add(GestureListener listener) {
     _listeners.add(listener);
+    _listeners.sort((a,b){
+        if (a.priority == b.priority) {
+          return 0;
+        }
+        if (a.priority < b.priority) {
+          return 1;
+        }
+
+        return -1;
+      }
+    );
     _activeListeners.clear();
   }
 
